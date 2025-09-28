@@ -48,12 +48,14 @@ class UsuarioController {
             })
 
             if (!usuario) {
+                console.log('Usuário não existe!')
                 return res.status(404).json({message: 'Usuário não encontrado'})
             }
 
             //Veririca se a senha está correta
             const isMatch = await bcrypt.compare(dados.password, usuario.password)
             if (!isMatch) {
+                console.log('Senha Inválida!')
                 return res.status(400).json({message: 'Senha incorreta!'})
             }
 
@@ -63,7 +65,8 @@ class UsuarioController {
                 JWT_SECRET,
                 {expiresIn: '1h'}
             )
-            console.log('USUARIO: '+req.userId)
+            //console.log('USUARIO: '+req.userId)
+            console.log('Usuário logado: '+token)
             res.status(200).json(token);
         } catch (err) {
             res.status(500).json({message: 'Erro no Servidor: ' + err});

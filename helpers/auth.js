@@ -15,10 +15,12 @@ const auth = function (req, res, next) {
         const tokenpuro = token.replace('Bearer ', '');
         const decoded = jwt.verify(tokenpuro, JWT_SECRET);
         req.userId = decoded.id;
+        next();
     }catch(err){
-        return res.status(401).json({message: 'Token Inválido: ' + err});
+        console.log(err)
+        return res.status(401).json({message: 'Acesso Negado: ' + err});
     }
-    next();
+
 }
 
 export default auth
